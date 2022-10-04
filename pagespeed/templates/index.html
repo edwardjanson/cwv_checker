@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Crawl Website
+{% endblock %}
+
+{% block main %}
+<form class="form-inline">
+    <div class="form-group row">
+        <label for="domainName" class="col-sm-2 col-form-label">Domain</label>
+        <div class="col-sm">
+        <input autocomplete="off" autofocus class="form-control" name="domain" aria-describedby="domainlHelp" placeholder="https://www.yourdomain.com" type="text"/>
+        <small id="domainHelp" class="form-text text-muted">Input the entire domain, including the protocol (HTTPS or HTTPS).</small>
+        </div>
+    </div>
+    <fieldset class="form-group">
+        <div class="row">
+        <legend class="col-form-label col-sm-2"></legend>
+        <div class="col-sm">
+            <div class="form-check">
+            <input type="radio" class="form-check-input radio-filter" name="radioFilter" id="radioFilter1" value="full domain"/>
+            <label class="form-check-label d-flex" for="radioFilter2">Full domain</label>
+            </div>
+            <div class="form-check">
+            <input type="radio" class="form-check-input radio-filter" name="radioFilter" id="radioFilter12" value="filter"/>
+            <label class="form-check-label d-flex" for="radioFilter2">Filter</label>
+            </div>
+        </div>
+        </div>
+    </fieldset>
+    <div class="form-group row filter-inputs">
+        <label for="domainName" class="col-sm-2 col-form-label">Include</label>
+        <div class="col-sm-4">
+            <select class="form-select" name="include">
+                <option disable selected>Select</option>
+                <option value="contains">Contains</option>
+                <option value="matches regex">Matches Regex</option>
+            </select>
+        </div>
+        <div class="col-sm-6 filter-field">
+            <input autocomplete="off" class="form-control" name="include" placeholder="e.g. /subfolder/" type="text"/>
+        </div>
+    </div>
+    <div class="form-group row filter-inputs">
+        <label for="domainName" class="col-sm-2 col-form-label">Exclude</label>
+        <div class="col-sm-4">
+            <select class="form-select" name="exclude">
+                <option disable selected>Select</option>
+                <option value="contains">Contains</option>
+                <option value="matches regex">Matches Regex</option>
+            </select>
+        </div>
+        <div class="col-sm-6 filter-field">
+            <input autocomplete="off" class="form-control" name="include" placeholder="e.g. /subfolder/" type="text"/>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm d-flex justify-content-center">
+            <button type="submit" class="btn btn-primary">Crawl Website</button>
+        </div>
+    </div>
+</form>
+{% endblock %}

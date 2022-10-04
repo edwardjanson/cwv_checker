@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Buy
+{% endblock %}
+
+{% block main %}
+    <div class="section">
+        <table>
+            <thead>
+                <tr>
+                    <th>URL</th>
+                    <th>25</th>
+                    <th>50</th>
+                    <th>75</th>
+                    <th>Aerage</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- url contains filter -->
+                {% for url in urls %}
+                <tr>
+                    <td>{{ url }}</td>
+                    <td>{{ url.p75_lcp }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
