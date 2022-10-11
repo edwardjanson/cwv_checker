@@ -109,7 +109,7 @@ def new_crawl():
     return redirect("/")
 
 
-@app.route("/stats")
+@app.route("/stats", methods=['GET', 'POST'])
 @crawl_required
 def stats():
     """Page Speed Stats"""
