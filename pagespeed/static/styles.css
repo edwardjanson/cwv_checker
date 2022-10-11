@@ -89,3 +89,8 @@ form {
         padding-top: 1rem;
     }
 }
+
+#loading {
+    display: none;
+    cursor: wait;
+}

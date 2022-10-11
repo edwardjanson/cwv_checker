@@ -5,12 +5,12 @@
 {% endblock %}
 
 {% block main %}
-<form class="form-inline" method="post">
+<form class="form-inline" method="post" id="indexForm">
     <div class="form-group row">
         <label for="domainName" class="col-sm-2 col-form-label">Domain</label>
         <div class="col-sm">
         <input autocomplete="off" autofocus class="form-control" name="domain" aria-describedby="domainlHelp" placeholder="https://www.yourdomain.com" type="text"/>
-        <small id="domainHelp" class="form-text text-muted">Input the entire domain, including the protocol (HTTP or HTTPS).</small>
+        <small id="domainHelp" class="form-text text-muted">Input a valid domain, including the protocol (HTTP or HTTPS).</small>
         </div>
     </div>
     <fieldset class="form-group">
@@ -62,4 +62,7 @@
         </div>
     </div>
 </form>
+<div id="loading">
+    <h3>Loading</h3>
+</div>
 {% endblock %}

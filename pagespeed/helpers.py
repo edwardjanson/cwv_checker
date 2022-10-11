@@ -22,8 +22,11 @@ def crawl_required(f):
 def crawl_urls(domain, url, links, urls, filters):
     """Get all the urls from the same hostname and appends them to the URL list if not already present."""
     # Get page data
-    page = requests.get(url)
-    page.raise_for_status()
+    try:
+        page = requests.get(url)
+        page.raise_for_status()
+    except (requests.exceptions.HTTPError, requests.exceptions.ConnectionError):
+        return
     page_soup = bs(page.content, "lxml")
 
     # Get all internal links from the user selected domain

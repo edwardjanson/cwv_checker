@@ -1,32 +1,4 @@
 // Check for user input of radio on Index and display filter fields accordingly
-// document.querySelector("#radio-domain").addEventListener("click", filterCheck(this));
-// document.querySelector("#radio-filter").addEventListener("click", filterCheck(this));
-
-// function filterCheck(e) {
-//     const filterInputs = document.querySelector("#filter-inputs");
-//     if (e.value === "filter")
-//     {
-//         alert("yes");
-//         filterInputs.style.display = "block";
-//     } else {
-//         filterInputs.style.display = "none";
-//     }
-// }
-
-// let radioFilter = document.querySelectorAll('.radio-filter');
-
-// for (let i = 0; i < radioFilter.length; i++) {
-//     radioFilter[i].addEventListener("change", function() {
-//         const filterInputs = document.querySelector("#filter-inputs");
-//         if (this.value === "filter") {
-//             filterInputs.style.display = "block";
-//         } else {
-//             filterInputs.style.display = "none";
-//         }
-//   });
-// }
-
-
 let radioFilter = document.querySelectorAll('.radio-filter');
 
 for (let i = 0; i < radioFilter.length; i++) {
@@ -42,4 +14,19 @@ for (let i = 0; i < radioFilter.length; i++) {
             }
         }
   });
+}
+
+// Show loading div once form has been successfully submitted
+const indexForm = document.getElementById('indexForm');
+const loading = document.getElementById('loading');
+
+indexForm.addEventListener("submit", function() {
+        indexForm.style.display = "none";
+        loading.style.display = "flex";
+    }
+);
+
+// Change domain label on index form to red if domain returns an error
+if (window.location.search.indexOf('error=domain') === 1) {
+    document.getElementById('domainHelp').style.setProperty('color', 'red', 'important');
 }

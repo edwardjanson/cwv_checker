@@ -44,7 +44,13 @@ def index():
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
 
-        domain = request.form.get("domain")
+        try:
+            domain = request.form.get("domain")
+            domain_check = requests.get(domain)
+            domain_check.raise_for_status()
+        except (requests.exceptions.HTTPError, requests.exceptions.ConnectionError):
+            return redirect("/?error=domain")
+
         filter = request.form["radio-filter"]
         filters = []
 
@@ -52,23 +58,12 @@ def index():
             filters.append({request.form.get("include-select"): request.form.get("include-value")})
             filters.append({request.form.get("exclude-select"): request.form.get("exclude-value")})
 
-        # Ensure username was submitted
-        if not request.form.get("domain"):
-            print("missing domain")
-            return -1
-
         # Crawl the main page given for URLs of same domain
-        try:
-            crawl_urls(domain, domain, all_links, all_urls, filters)
-        except requests.exceptions.HTTPError:
-            print("wrong url")
+        crawl_urls(domain, domain, all_links, all_urls, filters)
 
         # Crawl all URLs in the URL list to check for any new URLs from the same domain
         for link in all_links:
-            try:
-                crawl_urls(domain, link, all_links, all_urls, filters)           
-            except requests.exceptions.HTTPError:
-                pass
+            crawl_urls(domain, link, all_links, all_urls, filters)           
         
         # Create URL objects to record CRUX data and append to URL data list
         for url in all_urls:
@@ -83,7 +78,7 @@ def index():
         # Remember which domain was crawled
         session["crawled"] = domain
 
-        # Redirect user to home page
+        # Redirect user to stats page
         return redirect("/stats")
 
     elif not session:
