@@ -80,9 +80,6 @@ def index():
             if end_time - start_time < 0.4 and len(all_urls) > 150:
                 time.sleep(0.4 - (end_time - start_time))
 
-        for url in urls_data:
-            print(url)
-
         # Remember which domain was crawled
         session["crawled"] = domain
 
