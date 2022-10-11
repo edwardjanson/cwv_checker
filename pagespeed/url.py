@@ -42,11 +42,3 @@ class Url():
             self.p75_lcp = json["largest_contentful_paint"]["percentiles"]["p75"]
         except (requests.exceptions.HTTPError, KeyError) as errors:
             self.p75_lcp = "No data"
-
-
-"""try running CRUX in the URL class and adding a delay for when the class is created if there are more than 150 URLs
-First compile all_urls list
-Then run url_data list by calling URL class for each individual URL"""
-
-
-"""IT DOES NOT REMOVER THE CURRENT URLS WHEN RUNNING NEW CRAWL"""
