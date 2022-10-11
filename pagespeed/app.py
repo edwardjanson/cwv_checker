@@ -49,16 +49,12 @@ def index():
         filters = []
 
         if filter == "filter":
-            filters.append({request.form.get("include-select").value: request.form.get("include-value")})
-            filters.append({request.form.get("exclude-select").value: request.form.get("exclude-value")})
+            filters.append({request.form.get("include-select"): request.form.get("include-value")})
+            filters.append({request.form.get("exclude-select"): request.form.get("exclude-value")})
 
         # Ensure username was submitted
         if not request.form.get("domain"):
             print("missing domain")
-            return -1
-        
-        if not request.form.getlist("radio-filter"):
-            print("no radio selected")
             return -1
 
         # Crawl the main page given for URLs of same domain

@@ -26,38 +26,69 @@ def crawl_urls(domain, url, links, urls, filters):
     page.raise_for_status()
     page_soup = bs(page.content, "lxml")
 
-    # Get all URLs from the same domain being crawled
+    # Get all internal links from the user selected domain
     links_found = page_soup.find_all("a", href=re.compile(f'{url}.*|^\/.*'))
+
+    links_kept = []
     
-    # Append new URLs to the URL list
-    for link in links_found:
-        # Remove any links that do not match user selected filters
-        if len(filters) != 0:
-            include = filters[0]
-            exclude = filters[1]
-            if include["contains"] and re.match(f'.*{include["contains"]}.*', link) != 0:
-                link.extract()
-            elif include["matches-regex"] and re.match(include["matches-regex"], link) != 0:
-                link.extract()
-            if exclude["contains"] and re.match(f'.*{include["contains"]}.*', link) > 0:
-                link.extract()
-            elif exclude["matches-regex"] and re.match(include["matches-regex"], link) > 0:
-                link.extract()
+    # If filter is selected, only include links that match the filters
+    if len(filters) != 0:
+        for link in links_found:
+            if url_filter(filters, link):
+                links_kept.append(link)
+    else:
+        links_kept = links_found
 
-        link_check = link["href"]
+    # Append new links to the link list
+    for link in links_kept:
+        link_href = link["href"]
 
-        # Ignore any URLs with a query string or .pdf
-        if "?" in link_check or ".pdf" in link_check:
+        # Ignore any links with a query string or .pdf
+        if "?" in link_href or ".pdf" in link_href:
             continue
 
-        # Update URL to contain domain
-        if link_check.startswith("/"):
-            link_check = domain.rstrip("/") + link_check
+        # Update link to contain domain
+        if link_href.startswith("/"):
+            link_href = domain.rstrip("/") + link_href
 
-        # Add the URL to the list if not already recorded
-        if not link_check in links:
-            links.append(link_check)
+        # Add the link to the list if not already recorded
+        if not link_href in links:
+            links.append(link_href)
 
     # Add URL to URL list if 200 OK and not already recorded
     if not page.url in urls:
-        urls.append(page.url)
+        if len(filters) != 0:
+            if url_filter(filters, page.url):
+                urls.append(page.url)
+        else:
+            urls.append(page.url)
+            
+
+def url_filter(filters, url):
+    """Check if a URL matches the include and exclusion filters and return the appropriate boolean value."""
+    include = filters[0]
+    exclude = filters[1]
+    keep_url = True
+
+    if isinstance(url, str):
+        url_check = url
+    else:
+        url_check = url["href"]
+
+    # Check if the URL matches the contain filter
+    if "contains" in include: 
+        if not bool(re.match(f'.*{include["contains"]}.*', url_check)):
+            keep_url = False
+    elif "matches-regex" in include:
+        if not bool(re.match(include["matches-regex"], url_check)):
+            keep_url = False
+
+    # Remove any links from links_kept that match the contain filter
+    if "contains" in exclude:
+        if bool(re.match(f'.*{exclude["contains"]}.*', url_check)):
+            keep_url = False
+    elif "matches-regex" in exclude:
+        if bool(re.match(exclude["matches-regex"], url_check)):
+            keep_url = False
+    
+    return keep_url
