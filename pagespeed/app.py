@@ -45,21 +45,32 @@ def index():
     if request.method == "POST":
 
         domain = request.form.get("domain")
+        filter = request.form["radio-filter"]
+        filters = []
+
+        if filter == "filter":
+            filters.append({request.form.get("include-select").value: request.form.get("include-value")})
+            filters.append({request.form.get("exclude-select").value: request.form.get("exclude-value")})
 
         # Ensure username was submitted
         if not request.form.get("domain"):
             print("missing domain")
+            return -1
+        
+        if not request.form.getlist("radio-filter"):
+            print("no radio selected")
+            return -1
 
         # Crawl the main page given for URLs of same domain
         try:
-            crawl_urls(domain, domain, all_links, all_urls)
+            crawl_urls(domain, domain, all_links, all_urls, filters)
         except requests.exceptions.HTTPError:
             print("wrong url")
 
         # Crawl all URLs in the URL list to check for any new URLs from the same domain
         for link in all_links:
             try:
-                crawl_urls(domain, link, all_links, all_urls)           
+                crawl_urls(domain, link, all_links, all_urls, filters)           
             except requests.exceptions.HTTPError:
                 pass
         

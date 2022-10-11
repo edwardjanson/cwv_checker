@@ -19,7 +19,7 @@ def crawl_required(f):
     return decorated_function
 
 
-def crawl_urls(domain, url, links, urls):
+def crawl_urls(domain, url, links, urls, filters):
     """Get all the urls from the same hostname and appends them to the URL list if not already present."""
     # Get page data
     page = requests.get(url)
@@ -31,6 +31,19 @@ def crawl_urls(domain, url, links, urls):
     
     # Append new URLs to the URL list
     for link in links_found:
+        # Remove any links that do not match user selected filters
+        if len(filters) != 0:
+            include = filters[0]
+            exclude = filters[1]
+            if include["contains"] and re.match(f'.*{include["contains"]}.*', link) != 0:
+                link.extract()
+            elif include["matches-regex"] and re.match(include["matches-regex"], link) != 0:
+                link.extract()
+            if exclude["contains"] and re.match(f'.*{include["contains"]}.*', link) > 0:
+                link.extract()
+            elif exclude["matches-regex"] and re.match(include["matches-regex"], link) > 0:
+                link.extract()
+
         link_check = link["href"]
 
         # Ignore any URLs with a query string or .pdf
