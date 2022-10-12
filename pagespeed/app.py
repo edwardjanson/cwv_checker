@@ -44,40 +44,41 @@ def index():
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
 
-        try:
-            domain = request.form.get("domain")
-            domain_check = requests.get(domain)
-            domain_check.raise_for_status()
-        except (requests.exceptions.HTTPError, requests.exceptions.ConnectionError):
-            return redirect("/?error=domain")
+        # try:
+        #     domain = request.form.get("domain")
+        #     domain_check = requests.get(domain)
+        #     domain_check.raise_for_status()
+        # except (requests.exceptions.HTTPError, requests.exceptions.ConnectionError):
+        #     return redirect("/?error=domain")
 
-        filter = request.form["radio-filter"]
-        filters = []
+        # filter = request.form["radio-filter"]
+        # filters = []
 
-        if filter == "filter":
-            filters.append({request.form.get("include-select"): request.form.get("include-value")})
-            filters.append({request.form.get("exclude-select"): request.form.get("exclude-value")})
+        # if filter == "filter":
+        #     filters.append({request.form.get("include-select"): request.form.get("include-value")})
+        #     filters.append({request.form.get("exclude-select"): request.form.get("exclude-value")})
 
-        # Crawl the main page given for URLs of same domain
-        crawl_urls(domain, domain, all_links, all_urls, filters)
+        # # Crawl the main page given for URLs of same domain
+        # crawl_urls(domain, domain, all_links, all_urls, filters)
 
-        # Crawl all URLs in the URL list to check for any new URLs from the same domain
-        for link in all_links:
-            crawl_urls(domain, link, all_links, all_urls, filters)           
+        # # Crawl all URLs in the URL list to check for any new URLs from the same domain
+        # for link in all_links:
+        #     crawl_urls(domain, link, all_links, all_urls, filters)           
         
-        # Create URL objects to record CRUX data and append to URL data list
-        for url in all_urls:
-            # Delay the CRUX function depending on execution time
-            start_time = time.time()
-            url_data = Url(url)
-            urls_data.append(url_data)
-            end_time = time.time()
-            if end_time - start_time < 0.4 and len(all_urls) > 150:
-                time.sleep(0.4 - (end_time - start_time))
+        # # Create URL objects to record CRUX data and append to URL data list
+        # for url in all_urls:
+        #     # Delay the CRUX function depending on execution time
+        #     start_time = time.time()
+        #     url_data = Url(url)
+        #     urls_data.append(url_data)
+        #     end_time = time.time()
+        #     if end_time - start_time < 0.4 and len(all_urls) > 150:
+        #         time.sleep(0.4 - (end_time - start_time))
 
-        # Remember which domain was crawled
-        session["crawled"] = domain
+        # # Remember which domain was crawled
+        # session["crawled"] = domain
 
+        time.sleep(10)
         # Redirect user to stats page
         return redirect("/stats")
 
