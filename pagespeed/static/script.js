@@ -16,15 +16,15 @@ for (let i = 0; i < radioFilter.length; i++) {
   });
 }
 
-// Show loading div once form has been successfully submitted
-const indexForm = document.getElementById('indexForm');
-const loading = document.getElementById('loading');
-
+// Show loading div once form has been successfully submitted and update progress bar
 indexForm.addEventListener("submit", function() {
-        indexForm.style.display = "none";
-        loading.style.display = "flex";
-    }
-);
+    setInterval(async function() {
+        let response = await fetch("/progress");
+        let currentProgress = await response.text();
+        document.querySelector('main').innerHTML = currentProgress;
+        console.log("new");
+    }, 1000);
+});
 
 // Change domain label on index form to red if domain returns an error
 if (window.location.search.indexOf('error=domain') === 1) {

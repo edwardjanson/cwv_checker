@@ -28,6 +28,7 @@ all_links = []
 all_urls = []
 urls_data = []
 
+progress_count = 0
 
 @app.after_request
 def after_request(response):
@@ -44,39 +45,47 @@ def index():
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
 
-        # try:
-        #     domain = request.form.get("domain")
-        #     domain_check = requests.get(domain)
-        #     domain_check.raise_for_status()
-        # except (requests.exceptions.HTTPError, requests.exceptions.ConnectionError):
-        #     return redirect("/?error=domain")
+        global progress_count
+        progress_count = 0
 
-        # filter = request.form["radio-filter"]
-        # filters = []
+        try:
+            domain = request.form.get("domain")
+            domain_check = requests.get(domain)
+            domain_check.raise_for_status()
+        except (requests.exceptions.HTTPError, requests.exceptions.ConnectionError):
+            return redirect("/?error=domain")
 
-        # if filter == "filter":
-        #     filters.append({request.form.get("include-select"): request.form.get("include-value")})
-        #     filters.append({request.form.get("exclude-select"): request.form.get("exclude-value")})
+        filter = request.form["radio-filter"]
+        filters = []
 
-        # # Crawl the main page given for URLs of same domain
-        # crawl_urls(domain, domain, all_links, all_urls, filters)
+        if filter == "filter":
+            filters.append({request.form.get("include-select"): request.form.get("include-value")})
+            filters.append({request.form.get("exclude-select"): request.form.get("exclude-value")})
 
-        # # Crawl all URLs in the URL list to check for any new URLs from the same domain
-        # for link in all_links:
-        #     crawl_urls(domain, link, all_links, all_urls, filters)           
+        # Crawl the main page given for URLs of same domain
+        crawl_urls(domain, domain, all_links, all_urls, filters)
+
+        # Crawl all URLs in the URL list to check for any new URLs from the same domain
+        for link in all_links:
+            crawl_urls(domain, link, all_links, all_urls, filters)           
         
-        # # Create URL objects to record CRUX data and append to URL data list
-        # for url in all_urls:
-        #     # Delay the CRUX function depending on execution time
-        #     start_time = time.time()
-        #     url_data = Url(url)
-        #     urls_data.append(url_data)
-        #     end_time = time.time()
-        #     if end_time - start_time < 0.4 and len(all_urls) > 150:
-        #         time.sleep(0.4 - (end_time - start_time))
+        # Create URL objects to record CRUX data and append to URL data list
+        for url in all_urls:
+            # Delay the CRUX function depending on execution time
+            start_time = time.time()
+            url_data = Url(url)
+            urls_data.append(url_data)
+            end_time = time.time()
+            if end_time - start_time < 0.4 and len(all_urls) > 150:
+                time.sleep(0.4 - (end_time - start_time))
 
-        # # Remember which domain was crawled
-        # session["crawled"] = domain
+        # Remember which domain was crawled
+        session["crawled"] = domain
+
+        for _ in range(10):
+            progress_count += 15
+            print(progress)
+            time.sleep(1)
 
         time.sleep(10)
         # Redirect user to stats page
@@ -88,6 +97,12 @@ def index():
     else:
         return redirect("/stats")
 
+@app.route("/progress")
+def progress():
+    """Information about the application"""
+    # Redirect user to crawl form
+    global progress_count
+    return render_template("progress.html", progress=progress_count)
 
 @app.route("/info")
 def info():
@@ -117,4 +132,4 @@ def stats():
 
 
 if __name__=='__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=4444)

@@ -25,10 +25,10 @@ form {
 }
 
 /* Index loading */
-#loading {
+/* #loading {
     display: none;
     cursor: wait;
-}
+} */
 
 /* Navigation */
 nav .navbar-brand
@@ -55,7 +55,7 @@ nav .navbar-brand .green
 
 /* Index progress bar */
 .progress-bar {
-    width: 75%;
+    width: 0%;
     display: flex;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
