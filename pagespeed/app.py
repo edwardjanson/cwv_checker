@@ -1,8 +1,7 @@
 import os
 import requests
-from flask import Flask, flash, redirect, render_template, request, session
+from flask import Flask, redirect, render_template, request, session
 from flask_session.__init__ import Session
-from tempfile import mkdtemp
 import time
 
 from helpers import crawl_required, crawl_urls
@@ -28,7 +27,12 @@ all_links = []
 all_urls = []
 urls_data = []
 
-progress_count = 0
+# Set counters for progress bars
+link_count = 0
+crawled_links = 0
+url_count = 0
+crawled_urls = 0
+
 
 @app.after_request
 def after_request(response):
@@ -45,16 +49,27 @@ def index():
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
 
-        global progress_count
-        progress_count = 0
+        # Set global variables for progress bars
+        global link_count
+        global crawled_links
+        global url_count
+        global crawled_urls
 
+        # Reset counters for progress bars
+        link_count = 0
+        crawled_links = 0
+        url_count = 0
+        crawled_urls = 0
+
+        # Handle any errors related to invalid domains run by user
         try:
             domain = request.form.get("domain")
             domain_check = requests.get(domain)
             domain_check.raise_for_status()
-        except (requests.exceptions.HTTPError, requests.exceptions.ConnectionError):
+        except (requests.exceptions.HTTPError, requests.exceptions.ConnectionError, requests.exceptions.MissingSchema):
             return redirect("/?error=domain")
 
+        # If filter is selected, add provided filters in dictionaries 
         filter = request.form["radio-filter"]
         filters = []
 
@@ -64,30 +79,30 @@ def index():
 
         # Crawl the main page given for URLs of same domain
         crawl_urls(domain, domain, all_links, all_urls, filters)
+        link_count = len(all_links)
+        crawled_links += 1
 
         # Crawl all URLs in the URL list to check for any new URLs from the same domain
         for link in all_links:
-            crawl_urls(domain, link, all_links, all_urls, filters)           
-        
+            crawl_urls(domain, link, all_links, all_urls, filters)
+            link_count = len(all_links)
+            crawled_links += 1
+
         # Create URL objects to record CRUX data and append to URL data list
+        url_count = len(all_urls)
         for url in all_urls:
-            # Delay the CRUX function depending on execution time
             start_time = time.time()
             url_data = Url(url)
+            crawled_urls += 1
             urls_data.append(url_data)
             end_time = time.time()
+            # Delay the CRUX function if there a more than 150 URLs to avoid API rate limit
             if end_time - start_time < 0.4 and len(all_urls) > 150:
                 time.sleep(0.4 - (end_time - start_time))
 
         # Remember which domain was crawled
         session["crawled"] = domain
 
-        for _ in range(10):
-            progress_count += 15
-            print(progress)
-            time.sleep(1)
-
-        time.sleep(10)
         # Redirect user to stats page
         return redirect("/stats")
 
@@ -97,12 +112,26 @@ def index():
     else:
         return redirect("/stats")
 
+
 @app.route("/progress")
 def progress():
-    """Information about the application"""
-    # Redirect user to crawl form
-    global progress_count
-    return render_template("progress.html", progress=progress_count)
+    """Record the progress of crawl load after the index page form submission"""
+    progress = 0
+    steps = 0
+
+    # Keep track of progress of URLs fetch requests or if done, track progress of CrUX data collection
+    try:
+        if crawled_links <= link_count:
+            steps = "Step 1 of 2: Fetching URLs"
+            progress = round((crawled_links / link_count) * 100)
+        else:
+            steps = "Step 2 of 2: Fetching CrUX data"
+            progress = round((crawled_urls / url_count) * 100)
+    except ZeroDivisionError:
+        pass
+    
+    return render_template("progress.html", progress=progress, steps=steps)
+
 
 @app.route("/info")
 def info():

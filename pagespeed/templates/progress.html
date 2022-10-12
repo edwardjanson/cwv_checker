@@ -1,9 +1,8 @@
 {% block main %}
-<div class="container-fluid justify-content-center" id="loading">
-    <div class="row flex-xl-nowrap"></div>
-        <div class="progress col-12">
-            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress }}%">{{ progress }}%</div>
-        </div>
+<section class="text-center">
+    <h4 class="main-heading">{{ steps }}</h4>
+    <div class="progress">
+        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress }}%">{{ progress }}%</div>
     </div>
-</div>
+</section>
 {% endblock %}
