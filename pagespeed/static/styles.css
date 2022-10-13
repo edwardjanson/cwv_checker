@@ -107,15 +107,52 @@ nav .navbar-brand .green
 }
 
 /* Stats table */
+.raw-stats {
+    display: none;
+}
+
+td div[color-code="-"]{ 
+    color: grey;
+}
+
+td div[color-code="Average"]{ 
+    color: orange;
+}
+
+td div[color-code="Good"]{ 
+    color: green;
+}
+
+td div[color-code="Poor"]{ 
+    color: red;
+}
+
+td:hover .raw-stats {
+    display: inline;
+}
+
+td:hover .clean-stats {
+    display: none;
+}
+
 .section {
     padding-bottom: 1rem;
     padding-top: 0.5rem;
 }
 
-table {
-    background-color: transparent;
-    margin-top: 1rem;
+#statsTable_filter {
+    padding-bottom: 0.5rem;
+    padding-top: 0.5rem;
+}
+
+#statsTable_info {
+    padding-bottom: 0.5rem;
+}
+
+.table-responsive {
+    margin-top: 2rem;
     margin-bottom: 1rem;
+    padding-right: 0.3rem;
 }
 
 thead

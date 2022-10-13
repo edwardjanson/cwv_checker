@@ -6,7 +6,7 @@
 
 {% block main %}
 <div class="section table-responsive">
-    <table class="table">
+    <table class="table" id="statsTable">
         <thead>
             <tr>
                 <th scope="col" class="col-4">URL</th>
@@ -21,10 +21,22 @@
             {% for url in urls %}
             <tr>
                 <th scope="row"><a href="{{ url.full }}" target="_blank">{{ url }}</a></th>
-                <td>{{ url.p75_fcp[0] }}</td>
-                <td>{{ url.p75_lcp[0] }}</td>
-                <td>{{ url.p75_fid[0] }}</td>
-                <td>{{ url.p75_cls[0] }}</td>
+                <td>
+                    <div class="clean-stats" color-code="{{ url.p75_fcp[0] }}">{{ url.p75_fcp[0] }}</div>
+                    <div class="raw-stats" color-code="{{ url.p75_fcp[0] }}">{{ url.p75_fcp[1] }}</div>
+                </td>
+                <td>
+                    <div class="clean-stats" color-code="{{ url.p75_lcp[0] }}">{{ url.p75_lcp[0] }}</div>
+                    <div class="raw-stats" color-code="{{ url.p75_lcp[0] }}">{{ url.p75_lcp[1] }}</div>
+                </td>
+                <td>
+                    <div class="clean-stats" color-code="{{ url.p75_fid[0] }}">{{ url.p75_fid[0] }}</div>
+                    <div class="raw-stats" color-code="{{ url.p75_fid[0] }}">{{ url.p75_fid[1] }}</div>
+                </td>
+                <td>
+                    <div class="clean-stats" color-code="{{ url.p75_cls[0] }}">{{ url.p75_cls[0] }}</div>
+                    <div class="raw-stats" color-code="{{ url.p75_cls[0] }}">{{ url.p75_cls[1] }}</div>
+                </td>
             </tr>
             {% endfor %}
         </tbody>

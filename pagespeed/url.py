@@ -9,10 +9,10 @@ class Url():
         self.full = url
         self.hostname = self.get_hostname()
         self.path = self.get_path()
-        self.p75_fcp = ["-", "URL does not have sufficient data"]
-        self.p75_lcp = ["-", "URL does not have sufficient data"]
-        self.p75_fid = ["-", "URL does not have sufficient data"]
-        self.p75_cls = ["-", "URL does not have sufficient data"]
+        self.p75_fcp = ["-", "No data"]
+        self.p75_lcp = ["-", "No data"]
+        self.p75_fid = ["-", "No data"]
+        self.p75_cls = ["-", "No data"]
         self.crux_data()
     
 
