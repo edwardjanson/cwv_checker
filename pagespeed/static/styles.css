@@ -109,8 +109,6 @@ nav .navbar-brand .green
 /* Stats table */
 .section {
     padding-bottom: 1rem;
-    padding-left: 2rem;
-    padding-right: 2rem;
     padding-top: 0.5rem;
 }
 
@@ -118,7 +116,6 @@ table {
     background-color: transparent;
     margin-top: 1rem;
     margin-bottom: 1rem;
-    width: 100%;
 }
 
 thead
@@ -126,12 +123,19 @@ thead
     border-bottom: 1px solid #000000;
 }
 
-table th,
+table th {
+    padding: 0.75rem;
+    vertical-align: middle;
+    width: 15rem;
+}
+
 table td {
     padding: 0.75rem;
     vertical-align: middle;
+    width: 10rem;
+    white-space:nowrap;
 }
 
 tbody tr:nth-of-type(odd) {
-    background-color: rgb(179, 208, 255, 0.3)
+    background-color: rgba(200, 220, 252, 0.3)
 }

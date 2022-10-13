@@ -5,29 +5,29 @@
 {% endblock %}
 
 {% block main %}
-    <div class="section">
-        <table>
-            <thead>
-                <tr>
-                    <th>URL</th>
-                    <th>25</th>
-                    <th>50</th>
-                    <th>75</th>
-                    <th>Average</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- url contains filter -->
-                {% for url in urls %}
-                <tr>
-                    <td><a href="{{ url.full}}" target="_blank">{{ url }}</a></td>
-                    <td>{{ url.p75_lcp }}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+<div class="section table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col" class="col-4">URL</th>
+                <th scope="col" class="col-2">FCP</th>
+                <th scope="col" class="col-2">LCP</th>
+                <th scope="col" class="col-2">FID</th>
+                <th scope="col" class="col-2">CLS</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- url contains filter -->
+            {% for url in urls %}
+            <tr>
+                <th scope="row"><a href="{{ url.full }}" target="_blank">{{ url }}</a></th>
+                <td>{{ url.p75_fcp[0] }}</td>
+                <td>{{ url.p75_lcp[0] }}</td>
+                <td>{{ url.p75_fid[0] }}</td>
+                <td>{{ url.p75_cls[0] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}
