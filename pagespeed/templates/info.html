@@ -5,4 +5,66 @@
 {% endblock %}
 
 {% block main %}
+<div class="container first-container">
+    <div class="row">
+        <div class="col-sm">
+            <h1 class="text-center">About Core Web Vitals</h1>
+            <p class="lead text-muted">Web Vitals is an initiative by Google to provide unified guidance for quality signals that are essential to delivering a great user experience on the web.</p>
+            <p class="text-center">
+                <a href="/" class="btn btn-primary my-2">Crawl Website</a>
+                <a href="https://web.dev/vitals/" class="btn btn-secondary my-2">Visit Offical Site</a>
+            </p>
+        </div>
+    </div>
+    <div class="container second-container">
+        <div class="row">
+            <div class="col-sm d-flex">
+                <div class="card mb-6 box-shadow">
+                    <div class="card-body">
+                        <h2 class="card-title text-center">First Content Paint (FCP)</h2>
+                        <p class="card-text">FCP is a user-centric metric for measuring perceived load speed. It marks the first point in the page load timeline where the user can see anything on the screen.</p>
+                    </div>
+                    <a href="https://web.dev/first-contentful-paint/" target="_blank">
+                        <div class="card-footer text-center">Find out more</div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-sm d-flex">
+                <div class="card mb-6 box-shadow">
+                    <div class="card-body">
+                        <h2 class="card-title text-center">Largest Content Paint (LCP)</h2>
+                        <p class="card-text">LCP reports the render time of the largest content element (e.g., largest image or text block) that is visibible within the viewport.</p>
+                    </div>
+                    <a href="https://web.dev/lcp/" target="_blank">
+                        <div class="card-footer text-center">Find out more</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm d-flex">
+                <div class="card mb-6 box-shadow">
+                    <div class="card-body">
+                        <h2 class="card-title text-center">First Input Delay (FID)</h2>
+                        <p class="card-text">FID measure the time from when a user first intereacts with a page (e.g., click on a link), to the time when the browser is actually able to respond to that interaction.</p>
+                    </div>
+                    <a href="https://web.dev/fid/" target="_blank">
+                        <div class="card-footer text-center">Find out more</div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-sm d-flex">
+                <div class="card mb-6 box-shadow">
+                    <div class="card-body">
+                        <h2 class="card-title text-center">Cumulative Layout Shift (CLS)</h2>
+                        <p class="card-text">CLS measures the sum total of all individual layout shift scores for evey unexpected layout shift that occurs during the entire lifespan of the page.</p>
+                    </div>
+                    <a href="https://web.dev/cls/" target="_blank">
+                        <div class="card-footer text-center">Find out more</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
