@@ -124,20 +124,24 @@ def progress():
         if crawled_links <= link_count:
             steps = "Step 1 of 2: Fetching URLs"
             progress = round((crawled_links / link_count) * 100)
+            if progress >= 100:
+                progress = 100
         else:
             steps = "Step 2 of 2: Fetching CrUX data"
             progress = round((crawled_urls / url_count) * 100)
+            if progress >= 100:
+                progress = 100
     except ZeroDivisionError:
         pass
     
     return render_template("progress.html", progress=progress, steps=steps)
 
 
-@app.route("/info")
-def info():
+@app.route("/about")
+def about():
     """Information about the application"""
     # Redirect user to crawl form
-    return render_template("info.html")
+    return render_template("about.html")
 
 
 @app.route("/new-crawl")
