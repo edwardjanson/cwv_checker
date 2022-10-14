@@ -18,7 +18,7 @@ form {
 
 @media (min-width: 1000px) {
     form {
-        width: 44rem;
+        width: 50rem;
     }
 }
 
@@ -52,6 +52,10 @@ nav .navbar-brand
 nav .navbar-brand .blue
 {
     color: #537fbe;
+}
+
+nav .container-fluid {
+    max-width: 50rem;
 }
 
 /* Index progress bar */
@@ -130,7 +134,6 @@ nav .navbar-brand .blue
 
 .lead {
     padding-top: 1.5rem;
-    padding-bottom: 1.5rem;
 }
 
 .first-container {
@@ -142,6 +145,10 @@ nav .navbar-brand .blue
     margin-left: 0.5rem;
     margin-right: 0.5rem;
     width: 8rem;
+}
+
+.main-buttons {
+    padding-top: 1rem;
 }
 
 .second-container {
