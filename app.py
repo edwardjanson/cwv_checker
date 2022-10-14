@@ -175,5 +175,5 @@ def stats():
     return render_template("stats.html", urls=urls_data)
 
 
-if __name__=='__main__':
+if __name__ == "__main__":
     app.run()
