@@ -173,3 +173,7 @@ def stats():
         return redirect("/new-crawl")
 
     return render_template("stats.html", urls=urls_data)
+
+
+if __name__=='__main__':
+    app.run()
