@@ -18,7 +18,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Abel" rel="stylesheet">
 
         <!-- https://favicon.io/emoji-favicons/abacus -->
-        <link href="/static/favicon.ico" rel="icon">
+        <link href="/static/images/favicon.ico" rel="icon">
 
         <link href="/static/styles.css" rel="stylesheet">
 
@@ -51,6 +51,19 @@
                 </div>
             </div>
         </nav>
+
+        
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <header>
+                {% for message in messages %}
+                <div class="alert alert-primary mb-0 text-center justify-content-center d-flex" role="alert">
+                    <p class="alert-message">{{ message }}</p>
+                </div>
+                {% endfor %}
+            </header>
+            {% endif %}
+        {% endwith %}
 
         <main class="d-flex justify-content-center container-fluid">
             {% block main %}{% endblock %}

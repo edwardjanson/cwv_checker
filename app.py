@@ -1,6 +1,6 @@
 import os
 import requests
-from flask import Flask, redirect, render_template, request, session
+from flask import Flask, flash, redirect, render_template, request, session
 from flask_session.__init__ import Session
 import time
 
@@ -89,21 +89,27 @@ def index():
             crawled_links += 1
 
         # Create URL objects to record CRUX data and append to URL data list
+        quota_reached = False
         url_count = len(all_urls)
         for url in all_urls:
             start_time = time.time()
             url_data = Url(url)
-            crawled_urls += 1
             urls_data.append(url_data)
             end_time = time.time()
             # Delay the CRUX function if there a more than 150 URLs to avoid API rate limit
             if end_time - start_time < 0.4 and len(all_urls) > 150:
                 time.sleep(0.4 - (end_time - start_time))
+            
+            crawled_urls += 1
+            if url_data.p75_fcp[0] == "API quota reached":
+                quota_reached = True
 
         # Remember which domain was crawled
         session["crawled"] = domain
 
-        # Redirect user to stats page
+        # Redirect user to stats page and notify user in case the API quota was reached
+        if quota_reached:
+            flash("The API quota was reached and not all URLs' performance data could be fetched. This is due to another user also checking a website. Please wait 10 minutes and run a new check if required.")
         return redirect("/stats")
 
     elif not session:

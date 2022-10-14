@@ -6,7 +6,7 @@ from functools import wraps
 
 
 def crawl_required(f):
-    """Decorate routes to require initial crawl of website."""
+    """Decorate routes to require initial crawl of website"""
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if session.get("crawled") is None:
@@ -16,7 +16,7 @@ def crawl_required(f):
 
 
 def crawl_urls(domain, url, links, urls, filters):
-    """Get all the urls from the same hostname and appends them to the URL list if not already present."""
+    """Get all the urls from the same hostname and appends them to the URL list if not already present"""
     # Get page data
     try:
         page = requests.get(url)
@@ -43,7 +43,7 @@ def crawl_urls(domain, url, links, urls, filters):
         link_href = link["href"]
 
         # Ignore any links with a query string or .pdf
-        if "?" in link_href or ".pdf" in link_href:
+        if "?" in link_href or ".pdf" in link_href or "#" in link_href:
             continue
 
         # Update link to contain domain
@@ -64,7 +64,7 @@ def crawl_urls(domain, url, links, urls, filters):
             
 
 def url_filter(filters, url):
-    """Check if a URL matches the include and exclusion filters and return the appropriate boolean value."""
+    """Check if a URL matches the include and exclusion filters and return the appropriate boolean value"""
     include = filters[0]
     exclude = filters[1]
     keep_url = True

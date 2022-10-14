@@ -1,111 +1,10 @@
+.alert-message {
+    max-width: 50rem;
+    margin-bottom: -0.1rem;
+}
+
 body {
     font-family: 'Abel';
-}
-
-/* Index filter */
-.filter-inputs {
-    display: none;
-}
-
-/* Form */
-form {
-    padding: 3rem 1rem;
-}
-
-.form-group {
-    padding-top: 2rem;
-}
-
-@media (min-width: 1000px) {
-    form {
-        width: 50rem;
-    }
-}
-
-@media (max-width: 575px) {
-    .filter-field {
-        padding-top: 1rem;
-    }
-}
-
-/* Headings */
-.main-heading {
-    margin-top: 3rem;
-}
-
-h1 {
-    font-size: 2rem;
-    color: #537fbe;
-}
-
-h2 {
-    font-size: 1.5rem;
-    color: #537fbe;
-}
-
-/* Navigation */
-nav .navbar-brand
-{
-    font-size: large;
-}
-
-nav .navbar-brand .blue
-{
-    color: #537fbe;
-}
-
-nav .container-fluid {
-    max-width: 50rem;
-}
-
-/* Index progress bar */
-.progress-bar {
-    width: 0%;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    flex-direction: column;
-    -webkit-box-pack: center;
-    justify-content: center;
-    color: #fff;
-    text-align: center;
-    background-color: #007bff;
-    transition: width .6s ease;
-}
-
-.progress {
-    margin: 3rem;
-    display: flex;
-    height: 1.5rem;
-    overflow: hidden;
-        overflow-x: hidden;
-        overflow-y: hidden;
-    font-size: .75rem;
-    background-color: #e9ecef;
-    border-radius: 0.25rem;
-}
-
-@media (max-width: 499px) {
-    .progress {
-        width: 15rem;
-    }
-}
-
-@media (min-width: 500px) {
-    .progress {
-        width: 20rem;
-    }
-}
-
-@media (min-width: 700px) {
-    .progress {
-        width: 30rem;
-    }
-}
-
-.progress-bar-striped {
-    background-image: linear-gradient(45deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent);
-    background-size: 1rem 1rem;
 }
 
 /* About page */
@@ -159,6 +58,112 @@ nav .container-fluid {
 
 :root {
     --jumbotron-padding-y: 2rem;
+}
+
+/* Form */
+form {
+    padding: 3rem 1rem;
+}
+
+.form-group {
+    padding-top: 2rem;
+}
+
+@media (min-width: 1000px) {
+    form {
+        width: 50rem;
+    }
+}
+
+@media (max-width: 575px) {
+    .filter-field {
+        padding-top: 1rem;
+    }
+}
+
+/* Headings */
+.main-heading {
+    margin-top: 3rem;
+}
+
+h1 {
+    font-size: 2rem;
+    color: #537fbe;
+}
+
+h2 {
+    font-size: 1.5rem;
+    color: #537fbe;
+}
+
+/* Index filter */
+.filter-inputs {
+    display: none;
+}
+
+/* Index progress bar */
+.progress-bar {
+    width: 0%;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    flex-direction: column;
+    -webkit-box-pack: center;
+    justify-content: center;
+    color: #fff;
+    text-align: center;
+    background-color: #007bff;
+    transition: width .6s ease;
+}
+
+.progress {
+    margin: 3rem;
+    display: flex;
+    height: 1.5rem;
+    overflow: hidden;
+        overflow-x: hidden;
+        overflow-y: hidden;
+    font-size: .75rem;
+    background-color: #e9ecef;
+    border-radius: 0.25rem;
+}
+
+@media (max-width: 499px) {
+    .progress {
+        width: 15rem;
+    }
+}
+
+@media (min-width: 500px) {
+    .progress {
+        width: 20rem;
+    }
+}
+
+@media (min-width: 700px) {
+    .progress {
+        width: 30rem;
+    }
+}
+
+.progress-bar-striped {
+    background-image: linear-gradient(45deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent);
+    background-size: 1rem 1rem;
+}
+
+/* Navigation */
+nav .navbar-brand
+{
+    font-size: large;
+}
+
+nav .navbar-brand .blue
+{
+    color: #537fbe;
+}
+
+nav .container-fluid {
+    max-width: 50rem;
 }
 
 /* Stats table */
