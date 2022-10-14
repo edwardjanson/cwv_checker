@@ -157,10 +157,13 @@ def new_crawl():
     return redirect("/")
 
 
-@app.route("/stats", methods=['GET', 'POST'])
+@app.route("/stats")
 @crawl_required
 def stats():
     """Page Speed Stats"""
+    if not urls_data:
+        return redirect("/new-crawl")
+
     return render_template("stats.html", urls=urls_data)
 
 

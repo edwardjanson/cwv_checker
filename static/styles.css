@@ -9,7 +9,7 @@ body {
 
 /* Form */
 form {
-    padding: 1rem;
+    padding: 3rem 1rem;
 }
 
 .form-group {
@@ -31,6 +31,11 @@ form {
 /* Headings */
 .main-heading {
     margin-top: 3rem;
+}
+
+h1 {
+    font-size: 2rem;
+    color: #537fbe;
 }
 
 h2 {
@@ -99,20 +104,33 @@ nav .navbar-brand .blue
     background-size: 1rem 1rem;
 }
 
-/* Info page */
+/* About page */
 .card {
     margin-bottom: 1.4rem;
+    border-color: rgb(193, 194, 200);
+}
+
+.card-body h2 {
+    text-decoration: underline; 
+    text-decoration-color: rgb(255, 255, 255);
+    /* background-color: rgba(210,211,215); */
 }
 
 .card-footer {
     text-decoration: underline; 
     text-decoration-color: rgb(247, 247, 247);
+    background-color: rgba(210,211,215);
+    border-color: rgb(193, 194, 200);
     color: #537fbe;
 }
 
+.card-footer .card-img {
+    max-width: 18rem;
+}
+
 .lead {
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
 }
 
 .first-container {
@@ -145,7 +163,7 @@ td div[color-code="-"]{
     color: grey;
 }
 
-td div[color-code="Average"]{ 
+td div[color-code="Needs improvement"]{ 
     color: orange;
 }
 
@@ -200,7 +218,6 @@ table td {
     padding: 0.75rem;
     vertical-align: middle;
     width: 10rem;
-    white-space:nowrap;
 }
 
 tbody tr:nth-of-type(odd) {

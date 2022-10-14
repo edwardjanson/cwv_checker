@@ -88,4 +88,4 @@ class Url():
         elif float(p75) >= poor:
             return "Poor"
         else:
-            return "Average"
+            return "Needs improvement"
