@@ -3,7 +3,7 @@ import os
 class Config:
     DEBUG = False
     DEVELOPMENT = False
-    SECRET_KEY = os.getenv("CRUX_API_KEY", "this-is-the-default-key")
+    CRUX_API_KEY = os.getenv("CRUX_API_KEY", "default")
 
 class ProductionConfig(Config):
     pass

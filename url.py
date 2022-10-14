@@ -1,6 +1,6 @@
+import os
 import re
 import requests
-from flask import current_app
 
 
 class Url():
@@ -34,7 +34,7 @@ class Url():
 
     def crux_data(self):
         """Get Core Web Vitals data for a URL using the CrUX API"""
-        crux_api_key = current_app.config.get("CRUX_API_KEY")
+        crux_api_key = os.environ.get("CRUX_API_KEY")
         crux_endpoint = f"https://chromeuxreport.googleapis.com/v1/records:queryRecord?key={crux_api_key}"
 
         header = {

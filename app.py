@@ -16,7 +16,7 @@ app.config.from_object(env_config)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 
 # Make sure API key is set
-if os.environ.get("CRUX_API_KEY") == "default":
+if not os.environ.get("CRUX_API_KEY"):
     raise RuntimeError("CRUX_API_KEY not set")
 
 # Configure session to use filesystem (instead of signed cookies)
