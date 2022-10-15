@@ -1,15 +1,10 @@
 from flask import render_template
 from main import app
-import redis
-import os
-from rq import Worker, Queue, Connection
 
 import config as c
+from rq import Queue
+from worker import conn
 
-listen = ['high', 'default', 'low']
-
-redis_url = os.getenv('REDIS_URL', 'redis://localhost:6379')
-conn = redis.from_url(redis_url)
 
 @app.route("/progress")
 def progress():
@@ -32,7 +27,9 @@ def progress():
     return render_template("progress.html", progress=c.progress, steps=c.steps)
 
 
-if __name__ == "__main__":
-    with Connection(conn):
-        worker = Worker(map(Queue, listen))
-        worker.work()
+q = Queue(connection=conn)
+q.enqueue(progress)
+
+
+# if __name__ == "__main__":
+#     app.run()
