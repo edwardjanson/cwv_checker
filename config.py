@@ -4,6 +4,7 @@ class Config:
     DEBUG = False
     DEVELOPMENT = False
     CRUX_API_KEY = os.getenv("CRUX_API_KEY", "default")
+    SECRET_KEY = os.getenv("SECRET_KEY", "default")
 
 class ProductionConfig(Config):
     pass

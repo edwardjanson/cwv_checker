@@ -5,62 +5,62 @@
 {% endblock %}
 
 {% block main %}
-<form class="form-inline" method="post" id="indexForm">
-    <h1 class="text-center">Check your website's Core Web Vitals</h1>
-    <div class="form-group row">
-        <label for="domainName" class="col-sm-2 col-form-label">Domain / URL</label>
-        <div class="col-sm">
-            <input autocomplete="off" autofocus class="form-control" name="domain" aria-describedby="domainlHelp" placeholder="https://www.yourdomain.com" type="text"/>
-            <small id="domainHelp" class="form-text text-muted">Input a valid domain/URL, including the protocol (HTTP or HTTPS).</small>
-        </div>
-    </div>
-    <fieldset class="form-group">
-        <div class="row">
-            <legend class="col-form-label col-sm-2"></legend>
-        <div class="col-sm">
-            <div class="form-check">
-                <input checked type="radio" class="form-check-input radio-filter" name="radio-filter" id="radioFilter1" value="full domain"/>
-                <label class="form-check-label d-flex" for="radioFilter2">Full domain</label>
-            </div>
-            <div class="form-check">
-                <input type="radio" class="form-check-input radio-filter" name="radio-filter" id="radioFilter2" value="filter"/>
-                <label class="form-check-label d-flex" for="radioFilter2">Filter</label>
-            </div>
-        </div>
-        </div>
-    </fieldset>
-    <div class="form-group row filter-inputs">
-        <label for="domainName" class="col-sm-2 col-form-label">Include</label>
-        <div class="col-sm-4">
-            <select class="form-select" name="include-select">
-                <option disable selected>Select</option>
-                <option value="contains">Contains</option>
-                <option value="matches-regex">Matches Regex</option>
-            </select>
-        </div>
-        <div class="col-sm-6 filter-field">
-            <input autocomplete="off" class="form-control" name="include-value" placeholder="e.g. /subfolder/" type="text"/>
-            <small id="includeHelp" class="form-text text-muted">Input page(s) or subfolder(s) to include.</small>
-        </div>
-    </div>
-    <div class="form-group row filter-inputs">
-        <label for="domainName" class="col-sm-2 col-form-label">Exclude</label>
-        <div class="col-sm-4">
-            <select class="form-select" name="exclude-select">
-                <option disable selected>Select</option>
-                <option value="contains">Contains</option>
-                <option value="matches-regex">Matches Regex</option>
-            </select>
-        </div>
-        <div class="col-sm-6 filter-field">
-            <input autocomplete="off" class="form-control" name="exclude-value" placeholder="e.g. /subfolder/" type="text"/>
-            <small id="excludeHelp" class="form-text text-muted">Input page(s) or subfolder(s) to exclude.</small>
-        </div>
-    </div>
-    <div class="form-group row">
-        <div class="col-sm d-flex justify-content-center">
-            <button type="submit" class="btn btn-primary">Check Website</button>
-        </div>
-    </div>
-</form>
+            <form class="form-inline" method="post" id="indexForm">
+                <h1 class="text-center">Check your website's Core Web Vitals</h1>
+                <div class="form-group row">
+                    <label for="domainName" class="col-sm-2 col-form-label">Domain / URL</label>
+                    <div class="col-sm">
+                        <input autocomplete="off" autofocus class="form-control" name="domain" aria-describedby="domainlHelp" placeholder="https://www.yourdomain.com" type="text"/>
+                        <small id="domainHelp" class="form-text text-muted">Input a valid domain/URL, including the protocol (HTTP or HTTPS).</small>
+                    </div>
+                </div>
+                <fieldset class="form-group">
+                    <div class="row">
+                        <legend class="col-form-label col-sm-2"></legend>
+                    <div class="col-sm">
+                        <div class="form-check">
+                            <input checked type="radio" class="form-check-input radio-filter" name="radio-filter" id="radioFilter1" value="full domain"/>
+                            <label class="form-check-label d-flex" for="radioFilter2">Full domain</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input radio-filter" name="radio-filter" id="radioFilter2" value="filter"/>
+                            <label class="form-check-label d-flex" for="radioFilter2">Filter</label>
+                        </div>
+                    </div>
+                    </div>
+                </fieldset>
+                <div class="form-group row filter-inputs">
+                    <label for="domainName" class="col-sm-2 col-form-label">Include</label>
+                    <div class="col-sm-4">
+                        <select class="form-select" name="include-select">
+                            <option disable selected>Select</option>
+                            <option value="contains">Contains</option>
+                            <option value="matches-regex">Matches Regex</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-6 filter-field">
+                        <input autocomplete="off" class="form-control" name="include-value" placeholder="e.g. /subfolder/" type="text"/>
+                        <small id="includeHelp" class="form-text text-muted">Input page(s) or subfolder(s) to include.</small>
+                    </div>
+                </div>
+                <div class="form-group row filter-inputs">
+                    <label for="domainName" class="col-sm-2 col-form-label">Exclude</label>
+                    <div class="col-sm-4">
+                        <select class="form-select" name="exclude-select">
+                            <option disable selected>Select</option>
+                            <option value="contains">Contains</option>
+                            <option value="matches-regex">Matches Regex</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-6 filter-field">
+                        <input autocomplete="off" class="form-control" name="exclude-value" placeholder="e.g. /subfolder/" type="text"/>
+                        <small id="excludeHelp" class="form-text text-muted">Input page(s) or subfolder(s) to exclude.</small>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary">Check Website</button>
+                    </div>
+                </div>
+            </form>
 {% endblock %}

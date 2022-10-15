@@ -1,7 +1,7 @@
 import os
 import requests
 from flask import Flask, flash, redirect, render_template, request, session
-from flask_session.__init__ import Session
+from flask_session import Session
 import time
 
 from helpers import crawl_required, crawl_urls
@@ -20,6 +20,7 @@ if not os.environ.get("CRUX_API_KEY"):
     raise RuntimeError("CRUX_API_KEY not set")
 
 # Configure session to use filesystem (instead of signed cookies)
+app.secret_key = os.environ.get("SECRET_KEY")
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
@@ -34,6 +35,8 @@ link_count = 0
 crawled_links = 0
 url_count = 0
 crawled_urls = 0
+progress = 0
+steps = 0
 
 
 @app.after_request
@@ -121,30 +124,6 @@ def index():
         return redirect("/stats")
 
 
-@app.route("/progress")
-def progress():
-    """Record the progress of crawl load after the index page form submission"""
-    progress = 0
-    steps = 0
-
-    # Keep track of progress of URLs fetch requests or if done, track progress of CrUX data collection
-    try:
-        if crawled_links <= link_count:
-            steps = "Step 1 of 2: Fetching URLs"
-            progress = round((crawled_links / link_count) * 100)
-            if progress >= 100:
-                progress = 100
-        else:
-            steps = "Step 2 of 2: Fetching CrUX data"
-            progress = round((crawled_urls / url_count) * 100)
-            if progress >= 100:
-                progress = 100
-    except ZeroDivisionError:
-        pass
-    
-    return render_template("progress.html", progress=progress, steps=steps)
-
-
 @app.route("/about")
 def about():
     """Information about the application"""
@@ -159,7 +138,21 @@ def new_crawl():
     session.clear()
     all_links.clear()
     all_urls.clear()
-    urls_data.clear()   
+    urls_data.clear()
+
+    global link_count
+    global crawled_links
+    global url_count
+    global crawled_urls
+    global progress
+    global steps
+
+    link_count = 0
+    crawled_links = 0
+    url_count = 0
+    crawled_urls = 0
+    progress = 0
+    steps = 0
 
     # Redirect user to crawl form
     return redirect("/")
