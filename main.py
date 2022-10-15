@@ -147,12 +147,8 @@ def progress():
     # Keep track of progress of URLs fetch requests or if done, track progress of CrUX data collection
 
     q = Queue(connection=conn)
-    q.enqueue(update_progress)
+    q.enqueue(progress)
 
-    return render_template("progress.html", progress=c.progress, steps=c.steps)
-
-
-def update_progress():
     try:
         if c.crawled_links <= c.link_count:
             c.steps = "Step 1 of 2: Fetching URLs"
@@ -166,6 +162,8 @@ def update_progress():
                 c.progress = 100
     except ZeroDivisionError:
         pass
+
+    return render_template("progress.html", progress=c.progress, steps=c.steps)
 
 
 if __name__ == "__main__":
