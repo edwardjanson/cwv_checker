@@ -1,37 +1,38 @@
-# from flask import render_template
-# from main import app
+from flask import Flask, render_template
 
-# import config as c
-# from rq import Queue
-# from worker import conn
+import config as c
+from rq import Queue
+from worker import conn
+
+app = Flask(__name__)
 
 
-# def update_progress():
-#     try:
-#         if c.crawled_links <= c.link_count:
-#             c.steps = "Step 1 of 2: Fetching URLs"
-#             c.progress = round((c.crawled_links / c.link_count) * 100)
-#             if c.progress >= 100:
-#                 c.progress = 100
-#         else:
-#             c.steps = "Step 2 of 2: Fetching CrUX data"
-#             c.progress = round((c.crawled_urls / c.url_count) * 100)
-#             if c.progress >= 100:
-#                 c.progress = 100
-#     except ZeroDivisionError:
-#         pass
+def update_progress():
+    try:
+        if c.crawled_links <= c.link_count:
+            c.steps = "Step 1 of 2: Fetching URLs"
+            c.progress = round((c.crawled_links / c.link_count) * 100)
+            if c.progress >= 100:
+                c.progress = 100
+        else:
+            c.steps = "Step 2 of 2: Fetching CrUX data"
+            c.progress = round((c.crawled_urls / c.url_count) * 100)
+            if c.progress >= 100:
+                c.progress = 100
+    except ZeroDivisionError:
+        pass
+
+
+@app.route("/progress")
+def progress():
+    """Record the progress of crawl load after the index page form submission"""
+    # Keep track of progress of URLs fetch requests or if done, track progress of CrUX data collection
+
+    q = Queue(connection=conn)
+    q.enqueue(update_progress)
+
+    render_template("progress.html", progress=c.progress, steps=c.steps)
     
-#     return render_template("progress.html", progress=c.progress, steps=c.steps)
 
-
-# @app.route("/progress")
-# def progress():
-#     """Record the progress of crawl load after the index page form submission"""
-#     # Keep track of progress of URLs fetch requests or if done, track progress of CrUX data collection
-
-#     q = Queue(connection=conn)
-#     q.enqueue(update_progress)
-    
-
-# if __name__ == "__main__":
-#     app.run()
+if __name__ == "__main__":
+    app.run()
