@@ -1,13 +1,19 @@
 from flask import render_template
 from main import app
+import redis
+import os
+from rq import Worker, Queue, Connection
 
 import config as c
 
+listen = ['high', 'default', 'low']
+
+redis_url = os.getenv('REDIS_URL', 'redis://localhost:6379')
+conn = redis.from_url(redis_url)
 
 @app.route("/progress")
 def progress():
     """Record the progress of crawl load after the index page form submission"""
-
     # Keep track of progress of URLs fetch requests or if done, track progress of CrUX data collection
     try:
         if c.crawled_links <= c.link_count:
@@ -27,4 +33,6 @@ def progress():
 
 
 if __name__ == "__main__":
-    app.run()
+    with Connection(conn):
+        worker = Worker(map(Queue, listen))
+        worker.work()
