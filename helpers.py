@@ -4,6 +4,8 @@ import re
 from flask import redirect, session
 from functools import wraps
 
+import config
+
 
 def crawl_required(f):
     """Decorate routes to require initial crawl of website"""
@@ -91,3 +93,12 @@ def url_filter(filters, url):
             keep_url = False
     
     return keep_url
+
+
+def reset_progress():
+    config.link_count = 0
+    config.crawled_links = 0
+    config.url_count = 0
+    config.crawled_urls = 0
+    config.progress = 0
+    config.steps = 0

@@ -1,26 +1,30 @@
-from main import crawled_links, link_count, app, crawled_urls, url_count
 from flask import render_template
+from main import app
+
+import config as c
 
 
 @app.route("/progress")
 def progress():
     """Record the progress of crawl load after the index page form submission"""
-    progress = 0
-    steps = 0
 
     # Keep track of progress of URLs fetch requests or if done, track progress of CrUX data collection
     try:
-        if crawled_links <= link_count:
-            steps = "Step 1 of 2: Fetching URLs"
-            progress = round((crawled_links / link_count) * 100)
-            if progress >= 100:
-                progress = 100
+        if c.crawled_links <= c.link_count:
+            c.steps = "Step 1 of 2: Fetching URLs"
+            c.progress = round((c.crawled_links / c.link_count) * 100)
+            if c.progress >= 100:
+                c.progress = 100
         else:
-            steps = "Step 2 of 2: Fetching CrUX data"
-            progress = round((crawled_urls / url_count) * 100)
-            if progress >= 100:
-                progress = 100
+            c.steps = "Step 2 of 2: Fetching CrUX data"
+            c.progress = round((c.crawled_urls / c.url_count) * 100)
+            if c.progress >= 100:
+                c.progress = 100
     except ZeroDivisionError:
         pass
     
-    return render_template("progress.html", progress=progress, steps=steps)
+    return render_template("progress.html", progress=c.progress, steps=c.steps)
+
+
+if __name__ == "__main__":
+    app.run()

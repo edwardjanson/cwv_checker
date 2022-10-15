@@ -3,8 +3,9 @@ import requests
 from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session
 import time
+import config as c
 
-from helpers import crawl_required, crawl_urls
+from helpers import crawl_required, crawl_urls, reset_progress
 from url import Url
 
 # Configure application
@@ -30,14 +31,6 @@ all_links = []
 all_urls = []
 urls_data = []
 
-# Set counters for progress bars
-link_count = 0
-crawled_links = 0
-url_count = 0
-crawled_urls = 0
-progress = 0
-steps = 0
-
 
 @app.after_request
 def after_request(response):
@@ -54,17 +47,8 @@ def index():
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
 
-        # Set global variables for progress bars
-        global link_count
-        global crawled_links
-        global url_count
-        global crawled_urls
-
         # Reset counters for progress bars
-        link_count = 0
-        crawled_links = 0
-        url_count = 0
-        crawled_urls = 0
+        reset_progress()
 
         # Handle any errors related to invalid domains run by user
         try:
@@ -84,18 +68,18 @@ def index():
 
         # Crawl the main page given for URLs of same domain
         crawl_urls(domain, domain, all_links, all_urls, filters)
-        link_count = len(all_links)
-        crawled_links += 1
+        c.link_count = len(all_links)
+        c.crawled_links += 1
 
         # Crawl all URLs in the URL list to check for any new URLs from the same domain
         for link in all_links:
             crawl_urls(domain, link, all_links, all_urls, filters)
-            link_count = len(all_links)
-            crawled_links += 1
+            c.link_count = len(all_links)
+            c.crawled_links += 1
 
         # Create URL objects to record CRUX data and append to URL data list
         quota_reached = False
-        url_count = len(all_urls)
+        c.url_count = len(all_urls)
         for url in all_urls:
             start_time = time.time()
             url_data = Url(url)
@@ -105,7 +89,7 @@ def index():
             if end_time - start_time < 0.4 and len(all_urls) > 150:
                 time.sleep(0.4 - (end_time - start_time))
             
-            crawled_urls += 1
+            c.crawled_urls += 1
             if url_data.p75_fcp[0] == "API quota reached":
                 quota_reached = True
 
@@ -139,20 +123,7 @@ def new_crawl():
     all_links.clear()
     all_urls.clear()
     urls_data.clear()
-
-    global link_count
-    global crawled_links
-    global url_count
-    global crawled_urls
-    global progress
-    global steps
-
-    link_count = 0
-    crawled_links = 0
-    url_count = 0
-    crawled_urls = 0
-    progress = 0
-    steps = 0
+    reset_progress()
 
     # Redirect user to crawl form
     return redirect("/")

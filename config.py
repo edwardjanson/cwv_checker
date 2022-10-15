@@ -15,3 +15,11 @@ class StagingConfig(Config):
 class DevelopmentConfig(Config):
     DEBUG = True
     DEVELOPMENT = True
+
+# Set counters for progress bars
+link_count = 0
+crawled_links = 0
+url_count = 0
+crawled_urls = 0
+progress = 0
+steps = 0
