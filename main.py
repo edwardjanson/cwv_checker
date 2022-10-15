@@ -146,9 +146,6 @@ def progress():
     """Record the progress of crawl load after the index page form submission"""
     # Keep track of progress of URLs fetch requests or if done, track progress of CrUX data collection
 
-    q = Queue(connection=conn)
-    q.enqueue(progress)
-
     try:
         if c.crawled_links <= c.link_count:
             c.steps = "Step 1 of 2: Fetching URLs"
