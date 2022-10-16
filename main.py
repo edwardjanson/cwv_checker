@@ -6,6 +6,12 @@ import config as c
 
 from helpers import crawl_required, reset_data, crawl_all_urls
 
+quota_reached = False
+domain = None
+filters = []
+all_links = []
+all_urls = []
+urls_data = []
 
 # Configure application
 app = Flask(__name__)
@@ -46,8 +52,8 @@ def index():
 
         # Handle any errors related to invalid domains run by user
         try:
-            c.domain = request.form.get("domain")
-            domain_check = requests.get(c.domain)
+            domain = request.form.get("domain")
+            domain_check = requests.get(domain)
             domain_check.raise_for_status()
         except (requests.exceptions.HTTPError, requests.exceptions.ConnectionError, requests.exceptions.MissingSchema):
             return redirect("/?error=domain")
@@ -56,16 +62,16 @@ def index():
         filter = request.form["radio-filter"]
 
         if filter == "filter":
-            c.filters.append({request.form.get("include-select"): request.form.get("include-value")})
-            c.filters.append({request.form.get("exclude-select"): request.form.get("exclude-value")})
+            filters.append({request.form.get("include-select"): request.form.get("include-value")})
+            filters.append({request.form.get("exclude-select"): request.form.get("exclude-value")})
     
         crawl_all_urls()
 
         # Remember which domain was crawled
-        session["crawled"] = c.domain
+        session["crawled"] = domain
 
         # Redirect user to stats page and notify user in case the API quota was reached
-        if c.quota_reached:
+        if quota_reached:
             flash("The API quota was reached and not all URLs' performance data could be fetched. This is due to another user also checking a website. Please wait 10 minutes and run a new check if required.")
         return redirect("/stats")
 
@@ -88,9 +94,9 @@ def new_crawl():
     """Remove crawled website"""
     # Forget any crawled website
     session.clear()
-    c.all_links.clear()
-    c.all_urls.clear()
-    c.urls_data.clear()
+    all_links.clear()
+    all_urls.clear()
+    urls_data.clear()
     reset_data()
 
     # Redirect user to crawl form
@@ -101,10 +107,10 @@ def new_crawl():
 @crawl_required
 def stats():
     """Page Speed Stats"""
-    # if not c.urls_data:
-    #     return redirect("/new-crawl")
+    if not urls_data:
+        return redirect("/new-crawl")
 
-    return render_template("stats.html", urls=c.urls_data)
+    return render_template("stats.html", urls=urls_data)
 
 
 @app.route("/loading")
