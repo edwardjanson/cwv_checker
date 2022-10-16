@@ -3,7 +3,6 @@ import requests
 from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session
 import config as c
-import psycopg2
 
 from helpers import crawl_required, reset_data, crawl_all_urls
 
@@ -25,9 +24,6 @@ app.secret_key = os.environ.get("SECRET_KEY")
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
-
-
-db = psycopg2.connect(c.DATABASE_URL, sslmode='require')
 
 
 @app.after_request

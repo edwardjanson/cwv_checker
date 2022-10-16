@@ -1,8 +1,10 @@
 import os
 import re
 import requests
-from main import db
+import config as c
 
+import psycopg2
+db = psycopg2.connect(c.DATABASE_URL, sslmode='require')
 
 class Url():
 
