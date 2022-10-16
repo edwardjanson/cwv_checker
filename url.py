@@ -1,6 +1,7 @@
 import os
 import re
 import requests
+from main import db
 
 
 class Url():
@@ -83,6 +84,8 @@ class Url():
             self.p75_cls = [self.score(p75_cls, 0.25, 0.10), p75_cls]
         except (KeyError):
             pass
+
+        db.execute("INSERT INTO website (website, path, pc7_fcp, pc7_lcp, pc7_fid, pc7_cls) VALUES(?, ?, ?, ?, ?, ?)",  self.hostname, self.path, self.p75_fcp, self.p75_lcp, self.p75_fid, self.p75_cls)
 
 
     def to_seconds(self, milliseconds):

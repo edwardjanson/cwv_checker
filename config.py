@@ -5,6 +5,7 @@ class Config:
     DEVELOPMENT = False
     CRUX_API_KEY = os.getenv("CRUX_API_KEY", "default")
     SECRET_KEY = os.getenv("SECRET_KEY", "default")
+    DATABASE_URL = os.getenv("HEROKU_POSTGRESQL_CRIMSON_URL", "default")
 
 class ProductionConfig(Config):
     pass
