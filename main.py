@@ -99,15 +99,9 @@ def new_crawl():
 
 
 @app.route("/stats")
+@crawl_required
 def stats():
-    """Page Speed Stats"""    
-    counter = 0
-    while not c.urls_data and counter < 10:
-        time.sleep(0.5)
-        counter += 1
-
-    # if counter == 10:
-    #     return redirect("/new-crawl")
+    """Page Speed Stats"""
 
     return render_template("stats.html", urls=c.urls_data)
 
