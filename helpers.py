@@ -14,7 +14,7 @@ def crawl_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if session.get("crawled") is None:
-            return redirect("/")
+            return redirect("/new-crawl")
         return f(*args, **kwargs)
     return decorated_function
 
