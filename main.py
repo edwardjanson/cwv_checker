@@ -106,8 +106,8 @@ def stats():
         time.sleep(0.5)
         counter += 1
 
-    if counter == 10:
-        return redirect("/new-crawl")
+    # if counter == 10:
+    #     return redirect("/new-crawl")
 
     return render_template("stats.html", urls=c.urls_data)
 
