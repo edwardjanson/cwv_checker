@@ -3,6 +3,7 @@ import requests
 from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session
 import config as c
+import time
 
 from helpers import crawl_required, reset_data, crawl_all_urls
 
@@ -69,7 +70,7 @@ def index():
             flash("The API quota was reached and not all URLs' performance data could be fetched. This is due to another user also checking a website. Please wait 10 minutes and run a new check if required.")
         return redirect("/stats")
 
-    elif not session:
+    elif not c.urls_data:
         return render_template("index.html")
 
     else:
@@ -101,6 +102,8 @@ def new_crawl():
 @crawl_required
 def stats():
     """Page Speed Stats"""
+    time.sleep(1)
+    
     if not c.urls_data:
         return redirect("/new-crawl")
 
