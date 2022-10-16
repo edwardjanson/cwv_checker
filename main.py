@@ -47,6 +47,8 @@ def index():
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
 
+        global domain
+
         # Reset date before new crawl
         reset_data()
 
