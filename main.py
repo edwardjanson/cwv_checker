@@ -102,8 +102,15 @@ def new_crawl():
 @crawl_required
 def stats():
     """Page Speed Stats"""    
-    # if not c.urls_data:
-    #     return redirect("/new-crawl")
+    counter = 0
+
+    url_checker = []
+
+    if not url_checker and counter < 10:
+        time.sleep(1)
+        counter += 1
+    elif counter > 10:
+        return redirect("/new-crawl")
 
     return render_template("stats.html", urls=c.urls_data)
 
