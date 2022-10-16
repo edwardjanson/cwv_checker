@@ -18,18 +18,17 @@ if(window.location.pathname == '/') {
     }
 }
 
-// Show loading div once form has been successfully submitted and update progress bar
+// Show loading div once form has been successfully submitted
+if(window.location.pathname == '/') {
+    const indexForm = document.getElementById("indexForm")
+    const loading = document.getElementById("loading")
 
-// if(window.location.pathname == '/') {
-//     const indexForm = document.getElementById("indexForm")
-
-//     indexForm.addEventListener("submit", async function() {
-//             let response = await fetch("/loading");
-//             let currentProgress = await response.text();
-//             document.querySelector('main').innerHTML = currentProgress;
-//         }
-//     );
-// }
+    indexForm.addEventListener("submit", function() {
+            loading.style.display = "block";
+            indexForm.style.display = "none";
+        }
+    );
+}
 
 // Change domain label on index form to red if domain returns an error
 if (window.location.search.indexOf('error=domain') === 1) {

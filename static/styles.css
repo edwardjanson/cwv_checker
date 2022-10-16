@@ -102,6 +102,10 @@ h2 {
 }
 
 /* Index progress bar */
+#loading {
+    display: none;
+}
+
 .progress-bar {
     width: 0%;
     display: flex;
