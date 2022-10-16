@@ -100,18 +100,13 @@ def url_filter(filters, url):
 def crawl_all_urls():
     # Crawl the main page given for URLs of same domain
     crawl_urls(c.domain, c.domain, c.all_links, c.all_urls, c.filters)
-    c.link_count = len(c.all_links)
-    c.crawled_links += 1
 
     # Crawl all URLs in the URL list to check for any new URLs from the same domain
     for link in c.all_links:
         crawl_urls(c.domain, link, c.all_links, c.all_urls, c.filters)
-        c.link_count = len(c.all_links)
-        c.crawled_links += 1
 
     # Create URL objects to record CRUX data and append to URL data list
     c.quota_reached = False
-    c.url_count = len(c.all_urls)
     for url in c.all_urls:
         start_time = time.time()
         url_data = Url(url)
@@ -120,8 +115,6 @@ def crawl_all_urls():
         # Delay the CRUX function if there a more than 150 URLs to avoid API rate limit
         if end_time - start_time < 0.4 and len(c.all_urls) > 150:
             time.sleep(0.4 - (end_time - start_time))
-        
-        c.crawled_urls += 1
 
         if url_data.p75_fcp[0] == "API quota reached":
             c.quota_reached = True
