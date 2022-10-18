@@ -102,7 +102,19 @@ def new_crawl():
 @crawl_required
 def stats():
     """Page Speed Stats"""
-    urls = c.urls_data
+    counter = 0
+    urls = None
+
+    while counter < 100:
+        try:
+            urls = c.urls_data
+            if urls[0].full:
+                break
+        except IndexError:
+            counter += 1
+            if counter == 99:
+                redirect("new-crawl")
+
     return render_template("stats.html", urls=urls)
 
 
