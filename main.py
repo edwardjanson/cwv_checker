@@ -102,8 +102,8 @@ def new_crawl():
 @crawl_required
 def stats():
     """Page Speed Stats"""
-
-    return render_template("stats.html", urls=c.urls_data)
+    urls = c.urls_data
+    return render_template("stats.html", urls=urls)
 
 
 @app.route("/loading")
