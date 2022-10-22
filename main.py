@@ -26,13 +26,13 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 
-@app.after_request
-def after_request(response):
-    """Ensure responses are not cached"""
-    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
-    response.headers["Expires"] = 0
-    response.headers["Pragma"] = "no-cache"
-    return response
+# @app.after_request
+# def after_request(response):
+#     """Ensure responses are not cached"""
+#     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+#     response.headers["Expires"] = 0
+#     response.headers["Pragma"] = "no-cache"
+#     return response
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -102,20 +102,8 @@ def new_crawl():
 @crawl_required
 def stats():
     """Page Speed Stats"""
-    counter = 0
-    urls = None
 
-    while counter < 100:
-        try:
-            urls = c.urls_data
-            if urls[0].full:
-                break
-        except IndexError:
-            counter += 1
-            if counter == 100:
-                redirect("new-crawl")
-
-    return render_template("stats.html", urls=urls)
+    return render_template("stats.html", urls=c.urls_data)
 
 
 @app.route("/loading")
