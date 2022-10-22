@@ -26,15 +26,6 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 
-# @app.after_request
-# def after_request(response):
-#     """Ensure responses are not cached"""
-#     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
-#     response.headers["Expires"] = 0
-#     response.headers["Pragma"] = "no-cache"
-#     return response
-
-
 @app.route("/", methods=["GET", "POST"])
 def index():
     """Get user to crawl a website"""
