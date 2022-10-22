@@ -112,7 +112,7 @@ def stats():
                 break
         except IndexError:
             counter += 1
-            if counter == 99:
+            if counter == 100:
                 redirect("new-crawl")
 
     return render_template("stats.html", urls=urls)
