@@ -7,6 +7,7 @@ import time
 from url import Url
 
 import config as c
+import main as m
 
 
 def crawl_required(f):
@@ -126,3 +127,4 @@ def reset_data():
     c.all_links = []
     c.all_urls = []
     c.urls_data = []
+    m.cache.clear()

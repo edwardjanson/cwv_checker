@@ -2,6 +2,7 @@ import os
 import requests
 from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session
+from flask_caching import Cache
 import config as c
 
 from helpers import crawl_required, reset_data, crawl_all_urls
@@ -25,6 +26,11 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
+# Initialise cache for urls data
+app.config["CACHE_TYPE"] = "FileSystemCache"
+app.config["CACHE_THRESHOLD"] = 1000
+app.config["CACHE_DIR"] = "cache"
+cache = Cache(app)
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -54,6 +60,7 @@ def index():
 
         # Remember which domain was crawled
         session["crawled"] = c.domain
+        cache.set("cached_urls", c.urls_data)
 
         # Redirect user to stats page and notify user in case the API quota was reached
         if c.quota_reached:
@@ -93,8 +100,9 @@ def new_crawl():
 @crawl_required
 def stats():
     """Page Speed Stats"""
+    cached_urls = cache.get("cached_urls")
 
-    return render_template("stats.html", urls=c.urls_data)
+    return render_template("stats.html", urls=cached_urls)
 
 
 @app.route("/loading")
