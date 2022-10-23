@@ -28,6 +28,7 @@ cache = Cache(app)
 
 @app.context_processor
 def cached_session():
+    """Return the cache status in all templates"""
     if cache.get("cached_urls"):
         cache_status = True
     else:
