@@ -1,6 +1,6 @@
 # Core Web Vitals Checker
 
-### Video Demo:  https://vimeo.com/763116652
+### Video Demo:  https://youtu.be/VetSbRSZAFE
 
 ### Website:  https://core-web-vitals-checker.herokuapp.com/
 
