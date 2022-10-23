@@ -1,7 +1,6 @@
 import os
 import requests
-from flask import Flask, flash, redirect, render_template, request, session
-from flask_session import Session
+from flask import Flask, flash, redirect, render_template, request
 from flask_caching import Cache
 import config as c
 
@@ -20,17 +19,22 @@ app.config["TEMPLATES_AUTO_RELOAD"] = True
 if not os.environ.get("CRUX_API_KEY"):
     raise RuntimeError("CRUX_API_KEY not set")
 
-# Configure session to use filesystem (instead of signed cookies)
-app.secret_key = os.environ.get("SECRET_KEY")
-app.config["SESSION_PERMANENT"] = False
-app.config["SESSION_TYPE"] = "filesystem"
-Session(app)
-
 # Initialise cache for urls data
 app.config["CACHE_TYPE"] = "FileSystemCache"
 app.config["CACHE_THRESHOLD"] = 1000
 app.config["CACHE_DIR"] = "cache"
 cache = Cache(app)
+
+
+@app.context_processor
+def cached_session():
+    if cache.get("cached_urls"):
+        cache_status = True
+    else:
+        cache_status = False
+    
+    return dict(cached=cache_status)
+
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -58,8 +62,7 @@ def index():
     
         crawl_all_urls()
 
-        # Remember which domain was crawled
-        session["crawled"] = c.domain
+        # Set cache for URLs data
         cache.set("cached_urls", c.urls_data)
 
         # Redirect user to stats page and notify user in case the API quota was reached
@@ -67,7 +70,7 @@ def index():
             flash("The API quota was reached and not all URLs' performance data could be fetched. This is due to another user also checking a website. Please wait 10 minutes and run a new check if required.")
         return redirect("/stats")
 
-    elif not session:
+    elif not cache.get("cached_urls"):
         reset_data()
         return render_template("index.html")
 
@@ -86,10 +89,6 @@ def about():
 def new_crawl():
     """Remove crawled website"""
     # Forget any crawled website
-    session.clear()
-    c.all_links.clear()
-    c.all_urls.clear()
-    c.urls_data.clear()
     reset_data()
 
     # Redirect user to crawl form

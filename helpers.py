@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup as bs
 import re
-from flask import redirect, session
+from flask import redirect
 from functools import wraps
 import time
 from url import Url
@@ -14,7 +14,7 @@ def crawl_required(f):
     """Decorate routes to require initial crawl of website"""
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if session.get("crawled") is None:
+        if not m.cache.get("cached_urls"):
             return redirect("/new-crawl")
         return f(*args, **kwargs)
     return decorated_function
