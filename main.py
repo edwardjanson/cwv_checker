@@ -43,7 +43,7 @@ def index():
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
 
-        # Reset date before new crawl
+        # Reset data before new crawl
         reset_data()
 
         # Handle any errors related to invalid domains run by user
@@ -107,7 +107,7 @@ def stats():
 
 @app.route("/loading")
 def loading():
-    """Record the progress of the URL crawl after the index page form submission"""
+    """Display the loading template after the index page form submission"""
 
     return render_template("loading.html")
 
