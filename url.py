@@ -23,13 +23,13 @@ class Url():
     def get_hostname(self):
         """Get the website hostname of a URL"""
         re_sub = re.search(r'(?:http|https)\:\/\/(.*?)[^\/]+.*', self.full)
-        return re_sub.group(1)
+        return re_sub.group(1) # type: ignore
 
 
     def get_path(self):
         """Get the page path of a URL"""
         re_sub = re.match(r'(?:http|https)\:\/\/[^\/]+(.*)', self.full)
-        return re_sub.group(1)
+        return re_sub.group(1) # type: ignore
 
 
     def crux_data(self):
@@ -51,7 +51,7 @@ class Url():
             response.raise_for_status()
             json = response.json()["record"]["metrics"]
         except (requests.exceptions.HTTPError, KeyError) as error:
-            status_code = error.response.status_code
+            status_code = error.response.status_code # type: ignore
             if status_code == 429:
                 self.p75_fcp = ["API quota reached", "Please wait 10 minutes and run a new check"]
                 self.p75_lcp = ["API quota reached", "Please wait 10 minutes and run a new check"]

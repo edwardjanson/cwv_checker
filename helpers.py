@@ -1,23 +1,10 @@
 import requests
 from bs4 import BeautifulSoup as bs
 import re
-from flask import redirect
-from functools import wraps
 import time
 from url import Url
 
 import config as c
-import main as m
-
-
-def crawl_required(f):
-    """Decorate routes to require initial crawl of website"""
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if not m.cache.get("cached_urls"):
-            return redirect("/new-crawl")
-        return f(*args, **kwargs)
-    return decorated_function
 
 
 def crawl_urls(domain, url, links, urls, filters):
@@ -84,7 +71,11 @@ def url_filter(filters, url):
         if not bool(re.match(f'.*{include["contains"]}.*', url_check)):
             keep_url = False
     elif "matches-regex" in include:
-        if not bool(re.match(include["matches-regex"], url_check)):
+        include_regex = include["matches-regex"]
+        if c.domain not in include_regex:
+            include_regex = c.domain + include_regex
+            print(include_regex)
+        if not bool(re.match(include_regex, url_check)):
             keep_url = False
 
     # Remove any links from links_kept that match the contain filter
@@ -92,7 +83,10 @@ def url_filter(filters, url):
         if bool(re.match(f'.*{exclude["contains"]}.*', url_check)):
             keep_url = False
     elif "matches-regex" in exclude:
-        if bool(re.match(exclude["matches-regex"], url_check)):
+        exclude_regex = include["matches-regex"]
+        if c.domain not in exclude_regex:
+            exclude_regex = c.domain + exclude_regex
+        if bool(re.match(exclude_regex, url_check)):
             keep_url = False
     
     return keep_url
@@ -119,12 +113,3 @@ def crawl_all_urls():
 
         if url_data.p75_fcp[0] == "API quota reached":
             c.quota_reached = True
-
-
-def reset_data():
-    c.domain = None
-    c.filters = []
-    c.all_links = []
-    c.all_urls = []
-    c.urls_data = []
-    m.cache.clear()

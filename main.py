@@ -1,11 +1,11 @@
 import os
 import requests
 from flask import Flask, flash, redirect, render_template, request
+from functools import wraps
 from flask_caching import Cache
 import config as c
 
-from helpers import crawl_required, reset_data, crawl_all_urls
-
+from helpers import crawl_all_urls
 
 # Configure application
 app = Flask(__name__)
@@ -24,6 +24,27 @@ app.config["CACHE_TYPE"] = "FileSystemCache"
 app.config["CACHE_THRESHOLD"] = 1000
 app.config["CACHE_DIR"] = "cache"
 cache = Cache(app)
+
+
+# Check if urls are already cached
+def crawl_required(f):
+    """Decorate routes to require initial crawl of website"""
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not cache.get("cached_urls"):
+            return redirect("/new-crawl")
+        return f(*args, **kwargs)
+    return decorated_function
+
+
+# Reset all crawl data
+def reset_data():
+    c.domain = None
+    c.filters = []
+    c.all_links = []
+    c.all_urls = []
+    c.urls_data = []
+    cache.clear()
 
 
 @app.context_processor
@@ -48,8 +69,11 @@ def index():
 
         # Handle any errors related to invalid domains run by user
         try:
-            c.domain = request.form.get("domain")
-            domain_check = requests.get(c.domain)
+            domain = request.form.get("domain")
+            if domain.endswith("/"): # type: ignore
+                domain = domain[:-1] # type: ignore
+            c.domain = domain
+            domain_check = requests.get(domain) # type: ignore
             domain_check.raise_for_status()
         except (requests.exceptions.HTTPError, requests.exceptions.ConnectionError, requests.exceptions.MissingSchema):
             return redirect("/?error=domain")
