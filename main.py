@@ -134,7 +134,3 @@ def loading():
     """Display the loading template after the index page form submission"""
 
     return render_template("loading.html")
-
-
-if __name__ == "__main__":
-    app.run()
