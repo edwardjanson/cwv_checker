@@ -7,6 +7,7 @@ import config as c
 
 from helpers import crawl_all_urls
 
+
 # Configure application
 app = Flask(__name__)
 env_config = os.getenv("APP_SETTINGS", "config.DevelopmentConfig")
@@ -134,3 +135,6 @@ def loading():
     """Display the loading template after the index page form submission"""
 
     return render_template("loading.html")
+
+if __name__ == "__main__":
+	app.run()
